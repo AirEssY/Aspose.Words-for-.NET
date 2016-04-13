@@ -19,16 +19,25 @@ namespace ApiExamples
     /// </summary>
     public class ApiExampleBase
     {
+        private readonly string dirPath = MyDir + @"\Artifacts\";
+
         [TestFixtureSetUp]
         public void SetUp()
         {
             SetUnlimitedLicense();
+            
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
         }
 
         [TestFixtureTearDown]
         public void TearDown()
         {
-            //DeleteTempFiles();
+            //Delete all files from dir
+            Array.ForEach(Directory.GetFiles(dirPath), File.Delete);
+            
+            //Delete empty folder
+            Directory.Delete(dirPath);
         }
 
         internal static void SetUnlimitedLicense()
@@ -44,14 +53,7 @@ namespace ApiExamples
             }
         }
 
-        internal static void DeleteTempFiles()
-        {
-            foreach (string file in Directory.GetFiles(MyDir))
-                if (file.Contains("_OUT"))
-                    File.Delete(file);
-        }
-
-        internal static void RemoveLicense()
+       internal static void RemoveLicense()
         {
             License license = new License();
             license.SetLicense("");
