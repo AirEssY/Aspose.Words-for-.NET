@@ -193,11 +193,11 @@ namespace ApiExamples
             if (saveFormat == SaveFormat.Pdf)
             {
                 //Save document with pdf save options
-                doc.Save(MyDir + @"\Artifacts\Bookmark_WhiteSpaces_OUT.pdf", AddBookmarkSaveOptions(SaveFormat.Pdf));
+                doc.Save(MyDir + @"\Artifacts\Bookmark_WhiteSpaces.pdf", AddBookmarkSaveOptions(SaveFormat.Pdf));
 
                 //Bind pdf with Aspose PDF
                 PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
-                bookmarkEditor.BindPdf(MyDir + "Bookmark_WhiteSpaces_OUT.pdf");
+                bookmarkEditor.BindPdf(MyDir + @"\Artifacts\Bookmark_WhiteSpaces.pdf");
 
                 //Get all bookmarks from the document
                 Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();

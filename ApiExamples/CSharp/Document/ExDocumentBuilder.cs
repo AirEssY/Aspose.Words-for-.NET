@@ -17,10 +17,10 @@ using Aspose.Words.Tables;
 
 using NUnit.Framework;
 
+using Font = Aspose.Words.Font;
+
 namespace ApiExamples
 {
-    using Font = Aspose.Words.Font;
-
     [TestFixture]
     public class ExDocumentBuilder : ApiExampleBase
     {

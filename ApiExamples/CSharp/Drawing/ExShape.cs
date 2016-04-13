@@ -7,18 +7,14 @@
 
 using System;
 using System.Drawing;
-using System.Web.UI.WebControls;
 using Aspose.Words;
 using Aspose.Words.Drawing;
+using Aspose.Words.Drawing.Ole;
 
 using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System.IO;
-
-    using Aspose.Words.Drawing.Ole;
-
     /// <summary>
     /// Examples using shapes in documents.
     /// </summary>
@@ -45,7 +41,7 @@ namespace ApiExamples
 
             Assert.AreEqual(0, doc.GetChildNodes(NodeType.Shape, true).Count);
             Assert.AreEqual(0, doc.GetChildNodes(NodeType.GroupShape, true).Count);
-            doc.Save(MyDir + "Shape.DeleteAllShapes Out.doc");
+            doc.Save(MyDir + @"\Artifacts\Shape.DeleteAllShapes.doc");
         }
 
         [Test]
@@ -99,7 +95,7 @@ namespace ApiExamples
             lineB.RelativeVerticalPosition = RelativeVerticalPosition.Page;
             doc.FirstSection.Body.FirstParagraph.AppendChild(lineB);
 
-            doc.Save(MyDir + "Shape.LineFlipOrientation Out.doc");
+            doc.Save(MyDir + @"\Artifacts\Shape.LineFlipOrientation.doc");
             //ExEnd
         }
 
@@ -129,7 +125,7 @@ namespace ApiExamples
             shape.Top = -100;
             builder.InsertNode(shape);
 
-            builder.Document.Save(MyDir + "Shape.Fill Out.doc");
+            builder.Document.Save(MyDir + @"\Artifacts\Shape.Fill.doc");
             //ExEnd
         }
 
@@ -181,7 +177,7 @@ namespace ApiExamples
                 }
             }
 
-            doc.Save(MyDir + "Shape.ReplaceTextboxesWithImages Out.doc");
+            doc.Save(MyDir + @"\Artifacts\Shape.ReplaceTextboxesWithImages.doc");
             //ExEnd
         }
 
@@ -229,7 +225,7 @@ namespace ApiExamples
             doc.FirstSection.Body.FirstParagraph.AppendChild(textBox);
 
             // Save the output
-            doc.Save(MyDir + "Shape.CreateTextBox Out.doc");
+            doc.Save(MyDir + @"\Artifacts\Shape.CreateTextBox.doc");
             //ExEnd
         }
 

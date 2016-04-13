@@ -36,10 +36,10 @@ using Aspose.Words.Tables;
 
 using NUnit.Framework;
 
+using Font = Aspose.Words.Font;
+
 namespace ApiExamples
 {
-    using Font = Aspose.Words.Font;
-
     [TestFixture]
     public class ExDocument : ApiExampleBase
     {
@@ -267,7 +267,7 @@ namespace ApiExamples
             //ExSummary:Explicitly loads a document as HTML without automatic file format detection.
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.LoadFormat = Aspose.Words.LoadFormat.Html;
-            Document doc = new Document(MyDir + @"\Artifacts\Document.LoadFormat.html", loadOptions);
+            Document doc = new Document(MyDir + "Document.LoadFormat.html", loadOptions);
             //ExEnd
         }
 
@@ -280,7 +280,7 @@ namespace ApiExamples
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.LoadFormat = Aspose.Words.LoadFormat.DocPreWord60;
 
-            Document doc = new Document(MyDir + @"\Artifacts\Document.PreWord60.doc", loadOptions);
+            Document doc = new Document(MyDir + "Document.PreWord60.doc", loadOptions);
             //ExEnd
         }
 
@@ -390,7 +390,7 @@ namespace ApiExamples
             //ExSummary:Shows how to send a document to the client browser from an ASP.NET code.
             Document doc = new Document(MyDir + "Document.doc");
 
-            doc.Save(Response, "Report Out.doc", ContentDisposition.Inline, null);
+            doc.Save(Response, @"\Artifacts\Report.doc", ContentDisposition.Inline, null);
             //ExEnd
         }
 

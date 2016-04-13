@@ -7,6 +7,9 @@
 
 using System;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 
 using Aspose.Words;
 
@@ -14,11 +17,6 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-
     [TestFixture]
     public class ExSection : ApiExampleBase
     {
