@@ -304,7 +304,20 @@ namespace ApiExamples
             //ExEnd
         }
 
+        //For assert this test you need to open "MathML.docx" and "MathML.pdf" and check, that mathml code are render as "a 1 + b 1"
+        [Test]
+        public void InsertMathMl()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
 
+            const string MathMl = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>";
+
+            builder.InsertHtml(MathMl);
+
+            doc.Save(MyDir + "MathML.docx");
+            doc.Save(MyDir + "MathML.pdf");
+        }
 
         [Test]
         public void InsertTextAndBookmark()
