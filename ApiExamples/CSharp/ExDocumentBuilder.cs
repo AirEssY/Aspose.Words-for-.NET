@@ -1809,15 +1809,41 @@ namespace ApiExamples
             //ExFor:Footnote
             //ExFor:FootnoteType
             //ExFor:DocumentBuilder.InsertFootnote(FootnoteType,string)
+            //ExFor:DocumentBuilder.InsertFootnote(FootnoteType,string,string)
             //ExSummary:Shows how to add a footnote to a paragraph in the document using DocumentBuilder.
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);
             builder.Write("Some text");
 
             builder.InsertFootnote(FootnoteType.Footnote, "Footnote text.");
+            builder.InsertFootnote(FootnoteType.Footnote, "Footnote text.", "242");
             //ExEnd
 
             Assert.AreEqual("Footnote text.", doc.GetChildNodes(NodeType.Footnote, true)[0].ToString(SaveFormat.Text).Trim());
+        }
+
+        [Test]
+        public void AddFootnoteWithCustomMarks()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            builder.Write("Some text");
+
+            Footnote foot = new Footnote(doc, FootnoteType.Footnote);
+            foot.ReferenceMark = "242";
+
+            builder.InsertFootnote(FootnoteType.Footnote, "Footnote text.", foot.ReferenceMark);
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            doc = new Document(dstStream);
+            foot = (Footnote)doc.GetChildNodes(NodeType.Footnote, true)[0];
+            
+            Assert.IsFalse(foot.IsAuto);
+            Assert.AreEqual("242", foot.ReferenceMark);
+            Assert.AreEqual("242 Footnote text.\r", foot.GetText());
         }
 
         [Test]

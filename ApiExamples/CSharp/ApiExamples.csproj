@@ -67,6 +67,7 @@
     <Compile Include="ExBorderCollection.cs" />
     <Compile Include="ExBuildVersion.cs" />
     <Compile Include="ExComment.cs" />
+    <Compile Include="ExXpsSaveOptions.cs" />
     <Compile Include="ExUtilityClasses.cs" />
     <Compile Include="ExDigitalSignature.cs" />
     <Compile Include="ExDigitalSignatureCollection.cs" />
