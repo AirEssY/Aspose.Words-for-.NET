@@ -14,6 +14,8 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
+    using System.IO;
+
     [TestFixture]
     internal class ExPdfSaveOptions : ApiExampleBase
     {
@@ -152,6 +154,16 @@ namespace ApiExamples
 
             doc.Save(MyDir + "SaveOptions.PdfImageComppression PDF_A_1_A Out.pdf", optionsA1a);
             //ExEnd
+        }
+
+        //ToDo: Check unit tests in awnet
+        [Test]
+        public void ColorRendering()
+        {
+            PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+
+            pdfSaveOptions.ColorMode = ColorMode.Normal;
+            pdfSaveOptions.ColorMode = ColorMode.Grayscale;
         }
     }
 }

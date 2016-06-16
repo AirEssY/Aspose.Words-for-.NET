@@ -136,6 +136,13 @@ namespace ApiExamples
             builder.Document.GetText());
         }
 
+        //ToDo: Check awnet for unit tests
+        [Test]
+        public void ConditionalExpressions()
+        {
+            
+        }
+
         private static void BuildReport(Document document, object dataSource, string dataSourceName, ReportBuildOptions reportBuildOptions)
         {
             ReportingEngine engine = new ReportingEngine();

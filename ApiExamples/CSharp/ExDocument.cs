@@ -1165,6 +1165,18 @@ namespace ApiExamples
         }
 
         [Test]
+        public void PasswordVerification(string password)
+        {
+            Document doc = new Document();
+            doc.WriteProtection.SetPassword("pwd");
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            Assert.True(doc.WriteProtection.ValidatePassword("pwd"));
+        }
+
+        [Test]
         public void GetProtectionType()
         {
             //ExStart
