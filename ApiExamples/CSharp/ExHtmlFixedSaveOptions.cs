@@ -14,6 +14,10 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+
     [TestFixture]
     internal class ExHtmlFixedSaveOptions : ApiExampleBase
     {
@@ -31,10 +35,10 @@ namespace ApiExamples
             //Create "HtmlFixedSaveOptions" with "Encoding" parameter
             //You can also set "Encoding" using System.Text.Encoding, like "Encoding.ASCII", or "Encoding.GetEncoding()"
             HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions
-            {
-                Encoding = new ASCIIEncoding(),
-                SaveFormat = SaveFormat.HtmlFixed,
-            };
+                                                        {
+                                                            Encoding = new ASCIIEncoding(),
+                                                            SaveFormat = SaveFormat.HtmlFixed,
+                                                        };
 
             //Uses "HtmlFixedSaveOptions"
             doc.Save(MyDir + @"\Artifacts\UseEncoding.html", htmlFixedSaveOptions);
@@ -49,14 +53,14 @@ namespace ApiExamples
             Document doc = DocumentHelper.CreateDocumentFillWithDummyText();
 
             HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions
-            {
-                Encoding = Encoding.ASCII,
-                SaveFormat = SaveFormat.HtmlFixed,
-                ExportEmbeddedCss = true,
-                ExportEmbeddedFonts = true,
-                ExportEmbeddedImages = true,
-                ExportEmbeddedSvg = true
-            };
+                                                        {
+                                                            Encoding = Encoding.ASCII,
+                                                            SaveFormat = SaveFormat.HtmlFixed,
+                                                            ExportEmbeddedCss = true,
+                                                            ExportEmbeddedFonts = true,
+                                                            ExportEmbeddedImages = true,
+                                                            ExportEmbeddedSvg = true
+                                                        };
 
             doc.Save(MyDir + "EncodingUsingSystemTextEncoding.html", htmlFixedSaveOptions);
         }
@@ -67,14 +71,14 @@ namespace ApiExamples
             Document doc = DocumentHelper.CreateDocumentFillWithDummyText();
 
             HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions
-            {
-                Encoding = new UTF32Encoding(),
-                SaveFormat = SaveFormat.HtmlFixed,
-                ExportEmbeddedCss = true,
-                ExportEmbeddedFonts = true,
-                ExportEmbeddedImages = true,
-                ExportEmbeddedSvg = true
-            };
+                                                        {
+                                                            Encoding = new UTF32Encoding(),
+                                                            SaveFormat = SaveFormat.HtmlFixed,
+                                                            ExportEmbeddedCss = true,
+                                                            ExportEmbeddedFonts = true,
+                                                            ExportEmbeddedImages = true,
+                                                            ExportEmbeddedSvg = true
+                                                        };
 
             doc.Save(MyDir + "EncodingUsingNewEncoding.html", htmlFixedSaveOptions);
         }
@@ -85,14 +89,15 @@ namespace ApiExamples
             Document doc = DocumentHelper.CreateDocumentFillWithDummyText();
 
             HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions
-            {
-                Encoding = Encoding.GetEncoding("utf-16"),
-                SaveFormat = SaveFormat.HtmlFixed,
-                ExportEmbeddedCss = true,
-                ExportEmbeddedFonts = true,
-                ExportEmbeddedImages = true,
-                ExportEmbeddedSvg = true
-            };
+                                                        {
+                                                            Encoding =
+                                                                Encoding.GetEncoding("utf-16"),
+                                                            SaveFormat = SaveFormat.HtmlFixed,
+                                                            ExportEmbeddedCss = true,
+                                                            ExportEmbeddedFonts = true,
+                                                            ExportEmbeddedImages = true,
+                                                            ExportEmbeddedSvg = true
+                                                        };
 
             doc.Save(MyDir + "EncodingUsingGetEncoding.html", htmlFixedSaveOptions);
         }
@@ -108,14 +113,14 @@ namespace ApiExamples
             builder.InsertCheckBox("CheckBox", false, 15);
 
             HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions
-            {
-                SaveFormat = SaveFormat.HtmlFixed,
-                ExportEmbeddedCss = true,
-                ExportEmbeddedFonts = true,
-                ExportEmbeddedImages = true,
-                ExportEmbeddedSvg = true,
-                ExportFormFields = exportFormFields
-            };
+                                                        {
+                                                            SaveFormat = SaveFormat.HtmlFixed,
+                                                            ExportEmbeddedCss = true,
+                                                            ExportEmbeddedFonts = true,
+                                                            ExportEmbeddedImages = true,
+                                                            ExportEmbeddedSvg = true,
+                                                            ExportFormFields = exportFormFields
+                                                        };
 
             //For assert test result you need to open documents and check that checkbox are clickable in "ExportFormFiels.html" file and are not clickable in "WithoutExportFormFiels.html" file
             if (exportFormFields == true)
@@ -125,6 +130,40 @@ namespace ApiExamples
             else
             {
                 doc.Save(MyDir + "WithoutExportFormFiels.html", htmlFixedSaveOptions);
+            }
+        }
+
+        [Test]
+        [TestCase("aw")]
+        [TestCase("")]
+        public void CssPrefix(string cssprefix)
+        {
+            Document doc = new Document(MyDir + "Bookmark.doc");
+
+            HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+            saveOptions.CssClassNamesPrefix = cssprefix;
+
+            doc.Save(MyDir + @"\Artifacts\cssPrefix_Out.html", saveOptions);
+
+            //ToDo: Add one method for this
+            using (var sr = new StreamReader(MyDir + @"\cssPrefix_Out\styles.css"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine();
+                    
+                    if (String.IsNullOrEmpty(line)) continue;
+                    
+                    if (line.Contains(cssprefix + "div"))
+                    {
+                        Console.WriteLine(line);
+                        Assert.Pass();
+                    }
+                    else
+                    {
+                        Assert.Fail();
+                    }
+                }
             }
         }
     }

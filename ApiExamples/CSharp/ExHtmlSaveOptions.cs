@@ -5,13 +5,17 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-using Aspose.Words;
-using Aspose.Words.Saving;
-
 using NUnit.Framework;
 
 namespace ApiExamples
 {
+    using System;
+    using System.IO;
+
+    using Document = Aspose.Words.Document;
+    using HtmlSaveOptions = Aspose.Words.Saving.HtmlSaveOptions;
+    using SaveFormat = Aspose.Words.SaveFormat;
+
     [TestFixture]
     internal class ExHtmlSaveOptions : ApiExampleBase
     {
@@ -41,6 +45,54 @@ namespace ApiExamples
                 case SaveFormat.Epub:
                     doc.Save(MyDir + "ExportPageMargins.Epub", htmlSaveOptions); //There is draw images bug with epub. Need write to NSezganov
                     break;
+            }
+        }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ExportUrlForLinkedImage(bool export)
+        {
+            Document doc = new Document(MyDir + "ExportUrlForLinkedImage.docx");
+            
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.ExportOriginalUrlForLinkedImages = export;
+
+            doc.Save(MyDir + @"\Artifacts\ExportUrlForLinkedImage.html", saveOptions);
+
+            String[] dirFiles = Directory.GetFiles(MyDir + @"\Artifacts\", "ExportUrlForLinkedImage.001.png", SearchOption.AllDirectories);
+
+            if (dirFiles.Length == 0)
+            {
+                this.FindTextInFile(MyDir + @"\Artifacts\ExportUrlForLinkedImage.html", "<img src=\"http://www.aspose.com/images/aspose-logo.gif\"");
+            }
+            else
+            {
+                this.FindTextInFile(MyDir + @"\Artifacts\ExportUrlForLinkedImage.html", "<img src=\"ExportUrlForLinkedImage.001.png\"");
+            }
+        }
+
+        //ToDo: Change location to helper
+        private void FindTextInFile(string path, string expression)
+        {
+            using (var sr = new StreamReader(path))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine();
+
+                    if (String.IsNullOrEmpty(line)) continue;
+
+                    if (line.Contains(expression))
+                    {
+                        Console.WriteLine(line);
+                        Assert.Pass();
+                    }
+                    else
+                    {
+                        Assert.Fail();
+                    }
+                }
             }
         }
     }
