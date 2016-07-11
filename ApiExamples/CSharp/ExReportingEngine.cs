@@ -136,6 +136,12 @@ namespace ApiExamples
             builder.Document.GetText());
         }
 
+        //ToDO: Need to test data
+        public void MultipleDataSource()
+        {
+
+        }
+        
         //ToDo: Check awnet for unit tests
         [Test]
         public void ConditionalExpressions()
@@ -148,6 +154,12 @@ namespace ApiExamples
             ReportingEngine engine = new ReportingEngine();
             engine.Options = reportBuildOptions;
 
+            engine.BuildReport(document, dataSource, dataSourceName);
+        }
+
+        private static void BuildReport(Document document, object[] dataSource, string[] dataSourceName)
+        {
+            ReportingEngine engine = new ReportingEngine();
             engine.BuildReport(document, dataSource, dataSourceName);
         }
     }

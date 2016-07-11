@@ -1430,6 +1430,17 @@ namespace ApiExamples
             //ExEnd
         }
 
+        [ExpectedException(typeof(InvalidOperationException), ExpectedMessage = "Compared documents must not have revisions.")]
+        [Test]
+        public void CompareDocumentWithRevisions()
+        {
+            Document doc1 = new Document(MyDir + "Document.Compare.1.doc");
+            Document docWithRevision = new Document(MyDir + "Document.Compare.Revisions.doc");
+
+            if (docWithRevision.Revisions.Count > 0)
+                docWithRevision.Compare(doc1, "authorName", DateTime.Now);
+        }
+
         [Test]
         public void RemoveExternalSchemaReferencesEx()
         {

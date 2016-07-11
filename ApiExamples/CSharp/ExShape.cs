@@ -309,6 +309,9 @@ namespace ApiExamples
 
             Assert.AreEqual(250, renderer.GetBoundsInPixels(imageOptions.Scale, imageOptions.Resolution).Width);
             Assert.AreEqual(52, renderer.GetBoundsInPixels(imageOptions.Scale, imageOptions.Resolution).Height);
+
+            Assert.AreEqual((float)187.849991, renderer.OpaqueBoundsInPoints.Width);
+            Assert.AreEqual((float)39.25, renderer.OpaqueBoundsInPoints.Height);
         }
 
         //For assert result of the test you need to open "Document.OfficeMath Out.svg" and check that OfficeMath node is there
@@ -344,6 +347,83 @@ namespace ApiExamples
 
             shape = (Shape)doc.GetChild(NodeType.Shape, 0, true);
             Assert.AreEqual(isLocked, shape.AspectRatioLocked);
+        }
+
+
+        //ToDo: Need to add autoconvert dml to vml
+        [Test]
+        public void MarkupLunguageByDefault()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            Shape image = builder.InsertImage(MyDir + @"\Images\dotnet-logo.png");
+
+            // Loop through all single shapes inside document.
+            foreach (Shape shape in doc.GetChildNodes(NodeType.Shape, true))
+            {
+                Assert.AreEqual(ShapeMarkupLanguage.Dml, shape.MarkupLanguage);
+                
+                Console.WriteLine("Shape: " + shape.MarkupLanguage);
+                Console.WriteLine("ShapeSize: " + shape.SizeInPoints);
+            }
+        }
+
+        [Test]
+        [TestCase(MsWordVersion.Word2003, ShapeMarkupLanguage.Vml)]
+        [TestCase(MsWordVersion.Word2010, ShapeMarkupLanguage.Dml)]
+        public void MarkupLunguageForDifferentMsWordVersions(MsWordVersion msWordVersion, ShapeMarkupLanguage shapeMarkupLanguage)
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+            
+            doc.CompatibilityOptions.OptimizeFor(msWordVersion);
+            
+            Shape image = builder.InsertImage(MyDir + @"\Images\dotnet-logo.png");
+
+            // Loop through all single shapes inside document.
+            foreach (Shape shape in doc.GetChildNodes(NodeType.Shape, true))
+            {
+                Assert.AreEqual(shapeMarkupLanguage, shape.MarkupLanguage);
+
+                Console.WriteLine("Shape: " + shape.MarkupLanguage);
+                Console.WriteLine("ShapeSize: " + shape.SizeInPoints);
+            }
+        }
+
+        [Test]
+        public void ChangeStrokeProperties()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            Shape rectangle = new Shape(doc, ShapeType.Rectangle);
+
+            Stroke stroke = rectangle.Stroke;
+            stroke.On = true;
+            stroke.Weight = 5;
+            stroke.Color = Color.Red;
+            stroke.DashStyle = DashStyle.ShortDashDotDot;
+            stroke.JoinStyle = JoinStyle.Miter;
+            stroke.EndCap = EndCap.Square;
+            stroke.LineStyle = ShapeLineStyle.Triple;
+
+            builder.InsertNode(rectangle);
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            rectangle = (Shape)doc.GetChild(NodeType.Shape, 0, true);
+
+            Stroke stroke1 = rectangle.Stroke;
+            
+            Assert.AreEqual(true, stroke1.On);
+            Assert.AreEqual(5, stroke1.Weight);
+            Assert.AreEqual(Color.Red.ToArgb(), stroke1.Color.ToArgb());
+            Assert.AreEqual(DashStyle.ShortDashDotDot, stroke1.DashStyle);
+            Assert.AreEqual(JoinStyle.Miter, stroke1.JoinStyle);
+            Assert.AreEqual(EndCap.Square, stroke1.EndCap);
+            Assert.AreEqual(ShapeLineStyle.Triple, stroke1.LineStyle);
         }
     }
 }

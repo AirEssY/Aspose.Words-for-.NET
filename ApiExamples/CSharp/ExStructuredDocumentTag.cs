@@ -12,6 +12,8 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
+    using System.IO;
+
     /// <summary>
     /// Tests that verify work with structured document tags in the document 
     /// </summary>
@@ -31,6 +33,29 @@ namespace ApiExamples
             //Assert that the node have sdttype - RichText 
             sdt = (StructuredDocumentTag)sdts[1];
             Assert.AreNotEqual(SdtType.RepeatingSection, sdt.SdtType);
+        }
+
+        [Test]
+        public void CheckBox()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+            
+            StructuredDocumentTag SdtCheckBox = new StructuredDocumentTag(doc, SdtType.Checkbox, MarkupLevel.Inline);
+            SdtCheckBox.Checked = true;
+
+            //Insert content control into the document
+            builder.InsertNode(SdtCheckBox);
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            NodeCollection sdts = doc.GetChildNodes(NodeType.StructuredDocumentTag, true);
+            
+            //Assert that the node have sdttype - RepeatingSection and it's not detected as RichText
+            StructuredDocumentTag sdt = (StructuredDocumentTag)sdts[0];
+
+            Assert.AreEqual(true, sdt.Checked);
         }
     }
 }

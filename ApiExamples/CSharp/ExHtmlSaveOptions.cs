@@ -10,7 +10,9 @@ using NUnit.Framework;
 namespace ApiExamples
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using Document = Aspose.Words.Document;
     using HtmlSaveOptions = Aspose.Words.Saving.HtmlSaveOptions;
@@ -72,6 +74,32 @@ namespace ApiExamples
             }
         }
 
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ExportRoundtripInformation(bool export)
+        {
+            Document doc = new Document(MyDir + "HtmlSaveOptions.ExportPageMargins.docx");
+
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.ExportRoundtripInformation = export;
+
+            doc.Save(MyDir + @"\Artifacts\HtmlSaveOptions.RoundtripInformation.html");
+
+            if (export)
+            {
+                this.CompareFiles(
+                    MyDir + @"\Golds\HtmlSaveOptions.WithRoundtripInformation.html",
+                    MyDir + @"\Artifacts\HtmlSaveOptions.RoundtripInformation.html");
+            }
+            else
+            {
+                this.CompareFiles(
+                    MyDir + @"\Golds\HtmlSaveOptions.WithoutRoundtripInformation.html",
+                    MyDir + @"\Artifacts\HtmlSaveOptions.RoundtripInformation.html");
+            }
+        }
+
         //ToDo: Change location to helper
         private void FindTextInFile(string path, string expression)
         {
@@ -94,6 +122,14 @@ namespace ApiExamples
                     }
                 }
             }
+        }
+
+        private void CompareFiles(string firstPath, string secondPath)
+        {
+            String[] linesA = File.ReadAllLines(firstPath);
+            String[] linesB = File.ReadAllLines(secondPath);
+
+            Assert.AreEqual(linesA, linesB);
         }
     }
 }
