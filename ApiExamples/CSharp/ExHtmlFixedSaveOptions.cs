@@ -166,5 +166,33 @@ namespace ApiExamples
                 }
             }
         }
+
+        [Test]
+        [TestCase(HtmlFixedPageHorizontalAlignment.Center)]
+        [TestCase(HtmlFixedPageHorizontalAlignment.Left)]
+        [TestCase(HtmlFixedPageHorizontalAlignment.Right)]
+        public void HorizontalAlignment(HtmlFixedPageHorizontalAlignment horizontalAlignment)
+        {
+            Document doc = new Document(MyDir + "Bookmark.doc");
+
+            HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+            saveOptions.PageHorizontalAlignment = horizontalAlignment;
+
+            doc.Save(MyDir + @"\Artifacts\HtmlFixedPageHorizontalAlignment.html", saveOptions);
+        }
+
+        [Test]
+        [TestCase(-1, ExpectedException = typeof(ArgumentException))]
+        [TestCase(0)]
+        [TestCase(10)]
+        public void PageMargins(int margin)
+        {
+            Document doc = new Document(MyDir + "Bookmark.doc");
+
+            HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+            saveOptions.PageMargins = margin;
+
+            doc.Save(MyDir + @"\Artifacts\HtmlFixedPageMargins.html", saveOptions);
+        }
     }
 }

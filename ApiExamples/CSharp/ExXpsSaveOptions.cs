@@ -5,8 +5,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-using System.IO;
-
 using Aspose.Words;
 using Aspose.Words.Saving;
 
@@ -17,12 +15,14 @@ namespace ApiExamples
     [TestFixture]
     public class ExXpsSaveOptions : ApiExampleBase
     {
+        //Todo: Need to add gold test or add method which compare two xml files
         [Test]
         public void OptimizeOutput()
         {
             Document doc = new Document(MyDir + "XPSOutputOptimize.docx");
 
             XpsSaveOptions saveOptions = new XpsSaveOptions();
+            saveOptions.OptimizeOutput = true;
         }
     }
 }

@@ -145,6 +145,33 @@ namespace ApiExamples
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void GetFieldCode(bool nestedFields)
+        {
+            Document doc = new Document(MyDir + "Field.FieldCode.docx");
+
+            foreach (Field field in doc.Range.Fields)
+            {
+                if (field.Type == FieldType.FieldIf)
+                {
+                    FieldIf fif = (FieldIf)field;
+
+                    Assert.AreEqual(" IF  MERGEFIELD Q223  > 0 \" (and additionally London Weighting of   MERGEFIELD  Q223 \\f £  per hour) \" \"\" ", fif.GetFieldCode());
+
+                    if (nestedFields)
+                    {
+                        Assert.AreEqual(" IF  MERGEFIELD Q223  > 0 \" (and additionally London Weighting of   MERGEFIELD  Q223 \\f £  per hour) \" \"\" ", fif.GetFieldCode(true));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(" IF  > 0 \" (and additionally London Weighting of   per hour) \" \"\" ", fif.GetFieldCode(false));
+                    }
+                }
+            }
+        }
+        
+        [Test]
         public void DocumentBuilderAndSave()
         {
             //ExStart
@@ -416,7 +443,7 @@ namespace ApiExamples
         }
 
         [Test]
-        public void InsertCheckBox_EmptyName()
+        public void InsertCheckBoxEmptyName()
         {
             Document doc = new Document();
 

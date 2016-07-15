@@ -25,6 +25,8 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
+    using System.Drawing;
+
     [TestFixture]
     public class ExMailMerge : ApiExampleBase
     {
@@ -451,6 +453,27 @@ namespace ApiExamples
         }
 
         [Test]
+        public void GetNestedLevelNumber()
+        {
+            Document doc = new Document(MyDir + "MailMerge.TestRegionsHierarchy.doc");
+
+            //Returns a full hierarchy of regions (with fields) available in the document.
+            MailMergeRegionInfo regionInfo = doc.MailMerge.GetRegionsHierarchy();
+
+            Assert.AreEqual(0, regionInfo.Level);
+            
+            ArrayList topRegions = regionInfo.Regions;
+            
+            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[0]).Level);
+            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[1]).Level);
+
+            ArrayList nestedRegions = ((MailMergeRegionInfo)topRegions[0]).Regions;
+
+            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[0]).Level);
+            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[1]).Level);
+        }
+
+        [Test]
         public void TestTagsReplacedEventShouldRisedWithUseNonMergeFieldsOption()
         {
             Document document = new Document();
@@ -464,6 +487,22 @@ namespace ApiExamples
                 new object[0]);
 
             Assert.AreEqual(1, mailMergeCallbackStub.TagsReplacedCounter);
+        }
+
+        [Test]
+        [TestCase("Region1")]
+        [TestCase("NestedRegion1")]
+        public void GetRegionsByName(string regionName)
+        {
+            Document doc = new Document(MyDir + "MailMerge.RegionsByName.doc");
+
+            ArrayList regions = doc.MailMerge.GetRegionsByName(regionName);
+            Assert.AreEqual(2, regions.Count);
+
+            foreach (MailMergeRegionInfo region in regions)
+            {
+                Assert.AreEqual(regionName, region.Name);
+            }
         }
 
         private class MailMergeCallbackStub : IMailMergeCallback

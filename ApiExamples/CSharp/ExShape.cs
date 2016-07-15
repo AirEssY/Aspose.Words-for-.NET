@@ -349,8 +349,6 @@ namespace ApiExamples
             Assert.AreEqual(isLocked, shape.AspectRatioLocked);
         }
 
-
-        //ToDo: Need to add autoconvert dml to vml
         [Test]
         public void MarkupLunguageByDefault()
         {
