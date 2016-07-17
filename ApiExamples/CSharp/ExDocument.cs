@@ -267,7 +267,7 @@ namespace ApiExamples
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.LoadFormat = Aspose.Words.LoadFormat.Html;
 
-            Document doc = new Document(MyDir + @"\Artifacts\Document.LoadFormat.html", loadOptions);
+            Document doc = new Document(MyDir + "Document.LoadFormat.html", loadOptions);
             //ExEnd
         }
 
@@ -280,7 +280,7 @@ namespace ApiExamples
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.LoadFormat = Aspose.Words.LoadFormat.DocPreWord60;
 
-            Document doc = new Document(MyDir + @"\Artifacts\Document.PreWord60.doc", loadOptions);
+            Document doc = new Document(MyDir + "Document.PreWord60.doc", loadOptions);
             //ExEnd
         }
 
@@ -896,13 +896,12 @@ namespace ApiExamples
 
         //This is for obfuscation bug WORDSNET-13036
         [Test]
-        [ExpectedException(typeof(TypeInitializationException))]
         public void SignDocument()
         {
             CertificateHolder ch = CertificateHolder.Create(MyDir + "certificate.pfx", "123456");
 
             //By String
-            Document doc = new Document(MyDir + "TestRepeatingSection.doc");
+            Document doc = new Document(MyDir + "TestRepeatingSection.docx");
             string outputDocFileName = MyDir + @"\Artifacts\TestRepeatingSection.Signed.doc";
 
             DigitalSignatureUtil.Sign(doc.OriginalFileName, outputDocFileName, ch, "My comment", DateTime.Now);
