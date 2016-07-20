@@ -146,7 +146,7 @@ namespace ApiExamples
             doc.Save(MyDir + @"\Artifacts\cssPrefix_Out.html", saveOptions);
 
             //ToDo: Add one method for this
-            using (var sr = new StreamReader(MyDir + @"\cssPrefix_Out\styles.css"))
+            using (var sr = new StreamReader(MyDir + @"\Artifacts\cssPrefix_Out\styles.css"))
             {
                 while (!sr.EndOfStream)
                 {

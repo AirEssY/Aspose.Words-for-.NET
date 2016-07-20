@@ -326,13 +326,13 @@ namespace ApiExamples
                 {
                     FieldIncludePicture includePicture = (FieldIncludePicture)field;
 
-                    includePicture.SourceFullName = MyDir + @"\Images\dotnet-logo.png";
+                    includePicture.SourceFullName = MyDir + "dotnet-logo.png";
                     includePicture.Update(true);
                 }
             }
             
             doc.UpdateFields();
-            doc.Save(MyDir + "UpdateFieldIgnoringMergeFormat Out.docx");
+            doc.Save(MyDir + @"\Artifacts\UpdateFieldIgnoringMergeFormat.docx");
             //ExEnd
         }
     }
