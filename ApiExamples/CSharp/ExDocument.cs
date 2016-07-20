@@ -1599,8 +1599,8 @@ namespace ApiExamples
             //ExFor:PlaintextDocument.BuiltInDocumentProperties
             //ExFor:PlaintextDocument.CustomDocumentProperties
             //ExSummary:Shows how to extract plain text from the document and get it properties
-            PlainTextDocument plaintext = new PlainTextDocument(MyDir + "Bookmark.doc");
-            Assert.AreEqual("This is a bookmarked text.\f", plaintext.Text);
+            PlainTextDocument plaintext = new PlainTextDocument(MyDir + "Bookmark.docx");
+            Assert.AreEqual("This is a bookmarked text.\f", plaintext.Text); //in .doc there is other result "This is a bookmarked text.\r\r\r\r\r\r\r\f""
 
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.AllowTrailingWhitespaceForListItems = false;
