@@ -2017,6 +2017,32 @@ namespace ApiExamples
             //ExEnd
         }
 
+        //Todo: check for gold tests
+        [Test]
+        public void EmptyValuesInChartData()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+            
+            // Add chart with default data.
+            Shape shape = builder.InsertChart(ChartType.Line, 432, 252);
+            Chart chart = shape.Chart;
+
+            ChartSeriesCollection seriesColl = chart.Series;
+            seriesColl.Clear();
+
+            // Create category names array, second category will be null.
+            string[] categories = new string[] { "Cat1", null, "Cat3", "Cat4", "Cat5" };
+
+            // Adding new series with empty (double.NaN) values.
+            seriesColl.Add("AW Series 1", categories, new double[] { 1, 2, double.NaN, 4, 5 });
+            seriesColl.Add("AW Series 2", categories, new double[] { 2, 3, double.NaN, 5, 6 });
+            seriesColl.Add("AW Series 3", categories, new double[] { double.NaN, 4, 5, double.NaN, double.NaN });
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+        }
+
         [Test]
         public void InsertChartRelativePositionEx()
         {
