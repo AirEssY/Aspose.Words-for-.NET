@@ -1500,6 +1500,22 @@ namespace ApiExamples
             //ExEnd
         }
 
+        //Todo: Need to check with other fonts
+        [Test]
+        public void ShowRevisionBalloonsInPdf()
+        {
+            Document doc = new Document(MyDir + "ShowRevisionBalloons Out.docx");
+            
+            doc.LayoutOptions.RevisionOptions.ShowRevisionBalloons = true;
+
+            foreach (Revision r in doc.Revisions)
+            {
+                Console.WriteLine(r.RevisionType);
+            }
+
+            doc.Save(MyDir + "ShowRevisionBalloons Out.pdf");
+        }
+
         [Test]
         public void AcceptAllRevisions()
         {

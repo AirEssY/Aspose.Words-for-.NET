@@ -383,9 +383,6 @@ namespace ApiExamples
             foreach (Shape shape in doc.GetChildNodes(NodeType.Shape, true))
             {
                 Assert.AreEqual(shapeMarkupLanguage, shape.MarkupLanguage);
-
-                Console.WriteLine("Shape: " + shape.MarkupLanguage);
-                Console.WriteLine("ShapeSize: " + shape.SizeInPoints);
             }
         }
 

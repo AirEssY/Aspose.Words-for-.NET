@@ -136,15 +136,21 @@ namespace ApiExamples
             builder.Document.GetText());
         }
 
-        //ToDO: Need to test data
+        //ToDO: Check in AW dev
         public void MultipleDataSource()
         {
 
         }
         
-        //ToDo: Check awnet for unit tests
+        //ToDo: Check in AW dev
         [Test]
         public void ConditionalExpressions()
+        {
+            
+        }
+
+        //ToDo: Check in AW dev
+        public void InsertingDocumentsDynamically()
         {
             
         }
