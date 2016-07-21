@@ -41,11 +41,11 @@ namespace ApiExamples
             Document doc = new Document();
             DocumentBuilder builder = new DocumentBuilder(doc);
             
-            StructuredDocumentTag SdtCheckBox = new StructuredDocumentTag(doc, SdtType.Checkbox, MarkupLevel.Inline);
-            SdtCheckBox.Checked = true;
+            StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.Checkbox, MarkupLevel.Inline);
+            sdtCheckBox.Checked = true;
 
             //Insert content control into the document
-            builder.InsertNode(SdtCheckBox);
+            builder.InsertNode(sdtCheckBox);
 
             MemoryStream dstStream = new MemoryStream();
             doc.Save(dstStream, SaveFormat.Docx);

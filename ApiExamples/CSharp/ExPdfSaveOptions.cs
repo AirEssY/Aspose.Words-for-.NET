@@ -9,7 +9,6 @@ using Aspose.Words;
 using Aspose.Words.Saving;
 using Aspose.Pdf.Facades;
 using Aspose.Pdf.Text;
-
 using NUnit.Framework;
 
 namespace ApiExamples
@@ -156,14 +155,18 @@ namespace ApiExamples
             //ExEnd
         }
 
-        //ToDo: Check unit tests in awnet
         [Test]
         public void ColorRendering()
         {
-            PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+            //Open document with color image
+            Document doc = new Document(MyDir + "ColorMode.PdfGrayscaleMode.docx");
 
-            pdfSaveOptions.ColorMode = ColorMode.Normal;
+            //Set grayscale mode for document
+            PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
             pdfSaveOptions.ColorMode = ColorMode.Grayscale;
+
+            //Assert that color image in document was grey
+            doc.Save(MyDir + @"\Artifacts\ColorMode.PdfGrayscaleMode.pdf", pdfSaveOptions);
         }
     }
 }

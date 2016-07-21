@@ -1500,12 +1500,11 @@ namespace ApiExamples
             //ExEnd
         }
 
-        //Todo: Need to check with other fonts
         [Test]
         public void ShowRevisionBalloonsInPdf()
         {
-            Document doc = new Document(MyDir + "ShowRevisionBalloons Out.docx");
-            
+            Document doc = new Document(MyDir + "ShowRevisionBalloons.docx");
+
             doc.LayoutOptions.RevisionOptions.ShowRevisionBalloons = true;
 
             foreach (Revision r in doc.Revisions)
@@ -1513,7 +1512,8 @@ namespace ApiExamples
                 Console.WriteLine(r.RevisionType);
             }
 
-            doc.Save(MyDir + "ShowRevisionBalloons Out.pdf");
+            //Check that revisions are in balloons 
+            doc.Save(MyDir + @"\Artifacts\ShowRevisionBalloons.pdf");
         }
 
         [Test]

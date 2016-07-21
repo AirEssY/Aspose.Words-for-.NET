@@ -308,7 +308,7 @@ namespace ApiExamples
             return barcodeReader;
         }
 
-        //For assert result of the test you need to open "UpdateFieldIgnoringMergeFormat Out.docx" and check that image are added correct and without truncated inside frame
+        //For assert result of the test you need to open document and check that image are added correct and without truncated inside frame
         [Test]
         public void UpdateFieldIgnoringMergeFormat()
         {
@@ -334,6 +334,106 @@ namespace ApiExamples
             doc.UpdateFields();
             doc.Save(MyDir + @"\Artifacts\UpdateFieldIgnoringMergeFormat.docx");
             //ExEnd
+        }
+
+        [Test]
+        public void FieldFormat()
+        {
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
+
+            Field field = builder.InsertField("MERGEFIELD Date");
+
+            FieldFormat format = field.Format;
+
+            format.DateTimeFormat = "dddd, MMMM dd, yyyy";
+            format.NumericFormat = "0.#";
+            format.GeneralFormats.Add(GeneralFormat.CharFormat);
+
+            MemoryStream dstStream = new MemoryStream();
+            doc.Save(dstStream, SaveFormat.Docx);
+
+            field = doc.Range.Fields[0];
+            format = field.Format;
+
+            Assert.AreEqual("0.#", format.NumericFormat);
+            Assert.AreEqual("dddd, MMMM dd, yyyy", format.DateTimeFormat);
+            Assert.AreEqual(GeneralFormat.CharFormat, format.GeneralFormats[0]);
+        }
+
+        [Test]
+        public void UpdatePageNumbersInToc()
+        {
+            Document doc = new Document(MyDir + "Field.UpdateTocPages.docx");
+
+            Node startNode = DocumentHelper.GetParagraph(doc, 2);
+            Node endNode = null;
+
+            NodeCollection paragraphCollection = doc.GetChildNodes(NodeType.Paragraph, true);
+
+            foreach (Paragraph para in paragraphCollection)
+            {
+                // Check all runs in the paragraph for the first page breaks.
+                foreach (Run run in para.Runs)
+                {
+                    if (run.Text.Contains(ControlChar.PageBreak))
+                    {
+                        endNode = run;
+                        break;
+                    }
+                }
+            }
+            
+            if (startNode != null && endNode != null)
+            {
+                RemoveSequence(startNode, endNode);
+
+                startNode.Remove();
+                endNode.Remove();
+            }
+
+            //NodeCollection fStart = doc.GetChildNodes(NodeType.FieldStart, true);
+
+            //foreach (FieldStart field in fStart)
+            //{
+            //    FieldType fType = field.FieldType;
+            //    if (fType == FieldType.FieldTOC)
+            //    {
+            //        Paragraph para = (Paragraph)field.GetAncestor(NodeType.Paragraph);
+            //        para.Range.UpdateFields();
+            //        break;
+            //    }
+            //}
+
+            doc.Save(MyDir + "Field.UpdateTocPages Out.docx");
+        }
+
+        private void RemoveSequence(Node start, Node end)
+        {
+            Node curNode = start.NextPreOrder(start.Document);
+            while (curNode != null && !curNode.Equals(end))
+            {
+                //Move to next node
+                Node nextNode = curNode.NextPreOrder(start.Document);
+
+                //Check whether current contains end node
+                if (curNode.IsComposite)
+                {
+                    CompositeNode curComposite = (CompositeNode)curNode;
+                    if (!curComposite.GetChildNodes(NodeType.Any, true).Contains(end) &&
+                        !curComposite.GetChildNodes(NodeType.Any, true).Contains(start))
+                    {
+                        nextNode = curNode.NextSibling;
+                        curNode.Remove();
+                    }
+                }
+                else
+                {
+                    curNode.Remove();
+                }
+
+                curNode = nextNode;
+            }
         }
     }
 }

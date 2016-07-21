@@ -2041,7 +2041,6 @@ namespace ApiExamples
             seriesColl.Add("AW Series 4", categories, new double[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN });
         }
         
-        //Todo: check for gold tests
         [Test]
         public void EmptyValuesInChartData()
         {

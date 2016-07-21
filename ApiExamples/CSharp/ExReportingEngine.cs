@@ -136,25 +136,6 @@ namespace ApiExamples
             builder.Document.GetText());
         }
 
-        //ToDO: Check in AW dev
-        public void MultipleDataSource()
-        {
-
-        }
-        
-        //ToDo: Check in AW dev
-        [Test]
-        public void ConditionalExpressions()
-        {
-            
-        }
-
-        //ToDo: Check in AW dev
-        public void InsertingDocumentsDynamically()
-        {
-            
-        }
-
         private static void BuildReport(Document document, object dataSource, string dataSourceName, ReportBuildOptions reportBuildOptions)
         {
             ReportingEngine engine = new ReportingEngine();
