@@ -16,8 +16,6 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System.IO;
-
     [TestFixture]
     public class ExFormFields : ApiExampleBase
     {

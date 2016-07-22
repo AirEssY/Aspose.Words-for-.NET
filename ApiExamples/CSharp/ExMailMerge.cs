@@ -25,8 +25,6 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System.Drawing;
-
     [TestFixture]
     public class ExMailMerge : ApiExampleBase
     {
@@ -422,6 +420,7 @@ namespace ApiExamples
             //ExFor:MailMergeRegionInfo.Fields
             //ExFor:MailMergeRegionInfo.StartField
             //ExFor:MailMergeRegionInfo.EndField
+            //ExFor:MailMergeRegionInfo.Level
             //ExSummary:Shows how to get MailMergeRegionInfo and work with it
             Document doc = new Document(MyDir+ "MailMerge.TestRegionsHierarchy.doc");
 
@@ -433,12 +432,16 @@ namespace ApiExamples
             Assert.AreEqual(2, topRegions.Count);
             Assert.AreEqual(((MailMergeRegionInfo)topRegions[0]).Name, "Region1");
             Assert.AreEqual(((MailMergeRegionInfo)topRegions[1]).Name, "Region2");
+            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[0]).Level);
+            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[1]).Level);
 
             //Get nested region in first top region
             ArrayList nestedRegions = ((MailMergeRegionInfo)topRegions[0]).Regions;
             Assert.AreEqual(2, nestedRegions.Count);
             Assert.AreEqual(((MailMergeRegionInfo)nestedRegions[0]).Name, "NestedRegion1");
             Assert.AreEqual(((MailMergeRegionInfo)nestedRegions[1]).Name, "NestedRegion2");
+            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[0]).Level);
+            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[1]).Level);
 
             //Get field list in first top region
             ArrayList fieldList = ((MailMergeRegionInfo)topRegions[0]).Fields;
@@ -450,27 +453,6 @@ namespace ApiExamples
             FieldMergeField endFieldMergeField = ((MailMergeRegionInfo)nestedRegions[0]).EndField;
             Assert.AreEqual("TableEnd:NestedRegion1", endFieldMergeField.FieldName);
             //ExEnd
-        }
-
-        [Test]
-        public void GetNestedLevelNumber()
-        {
-            Document doc = new Document(MyDir + "MailMerge.TestRegionsHierarchy.doc");
-
-            //Returns a full hierarchy of regions (with fields) available in the document.
-            MailMergeRegionInfo regionInfo = doc.MailMerge.GetRegionsHierarchy();
-
-            Assert.AreEqual(0, regionInfo.Level);
-            
-            ArrayList topRegions = regionInfo.Regions;
-            
-            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[0]).Level);
-            Assert.AreEqual(1, ((MailMergeRegionInfo)topRegions[1]).Level);
-
-            ArrayList nestedRegions = ((MailMergeRegionInfo)topRegions[0]).Regions;
-
-            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[0]).Level);
-            Assert.AreEqual(2, ((MailMergeRegionInfo)nestedRegions[1]).Level);
         }
 
         [Test]

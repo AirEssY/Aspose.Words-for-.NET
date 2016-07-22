@@ -15,7 +15,6 @@ namespace ApiExamples
     [TestFixture]
     public class ExXpsSaveOptions : ApiExampleBase
     {
-        //Todo: Need to add gold test or add method which compare two xml files
         [Test]
         public void OptimizeOutput()
         {
@@ -23,6 +22,8 @@ namespace ApiExamples
 
             XpsSaveOptions saveOptions = new XpsSaveOptions();
             saveOptions.OptimizeOutput = true;
+
+            doc.Save(MyDir + @"\Artifacts\XPSOutputOptimize.docx");
         }
     }
 }

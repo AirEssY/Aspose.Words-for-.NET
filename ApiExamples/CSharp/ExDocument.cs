@@ -1503,17 +1503,17 @@ namespace ApiExamples
         [Test]
         public void ShowRevisionBalloonsInPdf()
         {
+            //ExStart
+            //ExFor:RevisionOptions.ShowRevisionBalloons
+            //ExSummary:Shows how render tracking changes in balloons
             Document doc = new Document(MyDir + "ShowRevisionBalloons.docx");
 
+            //Set option true, if you need render tracking changes in balloons in pdf document
             doc.LayoutOptions.RevisionOptions.ShowRevisionBalloons = true;
-
-            foreach (Revision r in doc.Revisions)
-            {
-                Console.WriteLine(r.RevisionType);
-            }
 
             //Check that revisions are in balloons 
             doc.Save(MyDir + @"\Artifacts\ShowRevisionBalloons.pdf");
+            //ExEnd
         }
 
         [Test]

@@ -13,8 +13,6 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System.IO;
-
     [TestFixture]
     internal class ExPdfSaveOptions : ApiExampleBase
     {
@@ -158,6 +156,10 @@ namespace ApiExamples
         [Test]
         public void ColorRendering()
         {
+            //ExStart
+            //ExFor:PdfSaveOptions.ColorMode
+            //ExSummary:Shows how change image color with save options property
+            
             //Open document with color image
             Document doc = new Document(MyDir + "ColorMode.PdfGrayscaleMode.docx");
 
@@ -167,6 +169,7 @@ namespace ApiExamples
 
             //Assert that color image in document was grey
             doc.Save(MyDir + @"\Artifacts\ColorMode.PdfGrayscaleMode.pdf", pdfSaveOptions);
+            //ExEnd
         }
     }
 }

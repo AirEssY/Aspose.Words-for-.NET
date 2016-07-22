@@ -10,10 +10,10 @@ using Aspose.Words.Markup;
 
 using NUnit.Framework;
 
+using System.IO;
+
 namespace ApiExamples
 {
-    using System.IO;
-
     /// <summary>
     /// Tests that verify work with structured document tags in the document 
     /// </summary>
@@ -52,9 +52,7 @@ namespace ApiExamples
 
             NodeCollection sdts = doc.GetChildNodes(NodeType.StructuredDocumentTag, true);
             
-            //Assert that the node have sdttype - RepeatingSection and it's not detected as RichText
             StructuredDocumentTag sdt = (StructuredDocumentTag)sdts[0];
-
             Assert.AreEqual(true, sdt.Checked);
         }
     }

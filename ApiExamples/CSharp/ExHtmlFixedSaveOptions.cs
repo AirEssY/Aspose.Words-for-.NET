@@ -6,6 +6,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 using System.Text;
+using System;
 
 using Aspose.Words;
 using Aspose.Words.Saving;
@@ -14,10 +15,6 @@ using NUnit.Framework;
 
 namespace ApiExamples
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-
     [TestFixture]
     internal class ExHtmlFixedSaveOptions : ApiExampleBase
     {
@@ -145,26 +142,7 @@ namespace ApiExamples
 
             doc.Save(MyDir + @"\Artifacts\cssPrefix_Out.html", saveOptions);
 
-            //ToDo: Add one method for this
-            using (var sr = new StreamReader(MyDir + @"\Artifacts\cssPrefix_Out\styles.css"))
-            {
-                while (!sr.EndOfStream)
-                {
-                    var line = sr.ReadLine();
-                    
-                    if (String.IsNullOrEmpty(line)) continue;
-                    
-                    if (line.Contains(cssprefix + "div"))
-                    {
-                        Console.WriteLine(line);
-                        Assert.Pass();
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                }
-            }
+            DocumentHelper.FindTextInFile(MyDir + @"\Artifacts\cssPrefix_Out\styles.css", "div");
         }
 
         [Test]

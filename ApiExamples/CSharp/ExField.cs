@@ -392,18 +392,18 @@ namespace ApiExamples
                 endNode.Remove();
             }
 
-            //NodeCollection fStart = doc.GetChildNodes(NodeType.FieldStart, true);
+            NodeCollection fStart = doc.GetChildNodes(NodeType.FieldStart, true);
 
-            //foreach (FieldStart field in fStart)
-            //{
-            //    FieldType fType = field.FieldType;
-            //    if (fType == FieldType.FieldTOC)
-            //    {
-            //        Paragraph para = (Paragraph)field.GetAncestor(NodeType.Paragraph);
-            //        para.Range.UpdateFields();
-            //        break;
-            //    }
-            //}
+            foreach (FieldStart field in fStart)
+            {
+                FieldType fType = field.FieldType;
+                if (fType == FieldType.FieldTOC)
+                {
+                    Paragraph para = (Paragraph)field.GetAncestor(NodeType.Paragraph);
+                    para.Range.UpdateFields();
+                    break;
+                }
+            }
 
             doc.Save(MyDir + "Field.UpdateTocPages Out.docx");
         }
